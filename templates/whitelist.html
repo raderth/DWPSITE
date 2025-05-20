@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Dwp Application</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=League+Gothic&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+        html, body {
+            margin: 0;
+            background-color: #010101;
+            font-family: "Roboto", sans-serif;
+            scroll-behavior: smooth;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        
+        h1 {
+            color: white;
+            text-transform: uppercase;
+            font-weight: 900;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 0 #DE1F47;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .dot-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.2;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .dot {
+            position: absolute;
+            background-color: #535353;
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+        
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin-bottom: 60px;
+            z-index: 2;
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .input__container {
+            position: relative;
+            background: #f0f0f0;
+            padding: 20px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 15px;
+            border: 4px solid #000;
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+            transition: all 400ms cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+            transform: rotateX(10deg) rotateY(-10deg);
+            perspective: 1000px;
+            box-shadow: 10px 10px 0 #000;
+            margin: 0 auto;
+        }
+
+        .input__container:hover {
+            transform: rotateX(5deg) rotateY(1deg) scale(1.05);
+            box-shadow: 25px 25px 0 -5px #DE1F47, 25px 25px 0 0 #000;
+        }
+
+        .shadow__input {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            bottom: 0;
+            z-index: -1;
+            transform: translateZ(-50px);
+            background: linear-gradient(
+                45deg,
+                rgba(255, 107, 107, 0.4) 0%,
+                rgba(255, 107, 107, 0.1) 100%
+            );
+            filter: blur(20px);
+        }
+
+        .input__search {
+            width: 100%;
+            outline: none;
+            border: 3px solid #000;
+            padding: 15px;
+            font-size: 18px;
+            background: #fff;
+            color: #000;
+            transform: translateZ(10px);
+            transition: all 400ms cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            z-index: 3;
+            font-family: "Roboto", Arial, sans-serif;
+            letter-spacing: -0.5px;
+        }
+
+        .input__search::placeholder {
+            color: #666;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .input__search:hover,
+        .input__search:focus {
+            background: #f0f0f0;
+            transform: translateZ(20px) translateX(-5px) translateY(-5px);
+            box-shadow: 5px 5px 0 0 #000;
+        }
+        
+        .textarea__input {
+            width: 100%;
+            outline: none;
+            border: 3px solid #000;
+            padding: 15px;
+            font-size: 18px;
+            background: #fff;
+            color: #000;
+            transform: translateZ(10px);
+            transition: all 400ms cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            z-index: 3;
+            font-family: "Roboto", Arial, sans-serif;
+            letter-spacing: -0.5px;
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .textarea__input::placeholder {
+            color: #666;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .textarea__input:hover,
+        .textarea__input:focus {
+            background: #f0f0f0;
+            transform: translateZ(20px) translateX(-5px) translateY(-5px);
+            box-shadow: 5px 5px 0 0 #000;
+        }
+
+        .input__container::before {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #DE1F47;
+            color: #000;
+            font-weight: bold;
+            padding: 5px 10px;
+            font-size: 14px;
+            transform: translateZ(50px);
+            z-index: 4;
+            border: 2px solid #000;
+        }
+        
+        .username::before {
+            content: "USERNAME";
+        }
+        
+        .playtime::before {
+            content: "PLAYTIME";
+        }
+        
+        .introduction::before {
+            content: "INTRODUCE YOURSELF";
+        }
+        
+        .visibility-container {
+            position: relative;
+            background: #f0f0f0;
+            padding: 20px;
+            border: 4px solid #000;
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+            transition: all 400ms cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+            transform: rotateX(10deg) rotateY(-10deg);
+            perspective: 1000px;
+            box-shadow: 10px 10px 0 #000;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        
+        .visibility-container:hover {
+            transform: rotateX(5deg) rotateY(1deg) scale(1.05);
+            box-shadow: 25px 25px 0 -5px #DE1F47, 25px 25px 0 0 #000;
+        }
+        
+        .visibility-container::before {
+            content: "VISIBILITY";
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #DE1F47;
+            color: #000;
+            font-weight: bold;
+            padding: 5px 10px;
+            font-size: 14px;
+            transform: translateZ(50px);
+            z-index: 4;
+            border: 2px solid #000;
+        }
+        
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            transform: translateZ(10px);
+        }
+        
+        .checkbox-input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        
+        .checkbox-label {
+            padding-left: 35px;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 25px;
+            position: relative;
+        }
+        
+        .checkbox-label:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 25px;
+            height: 25px;
+            border: 3px solid #000;
+            background: #fff;
+        }
+        
+        .checkbox-input:checked + .checkbox-label:after {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 4px;
+            width: 10px;
+            height: 15px;
+            border: solid #DE1F47;
+            border-width: 0 4px 4px 0;
+            transform: rotate(45deg);
+        }
+        
+        .submit-btn {
+            background: #DE1F47;
+            color: #000;
+            border: 4px solid #000;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 400ms cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+            transform: rotateX(10deg) rotateY(-10deg);
+            perspective: 1000px;
+            box-shadow: 10px 10px 0 #000;
+            width: 200px;
+            align-self: center;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .submit-btn:hover {
+            transform: rotateX(5deg) rotateY(1deg) scale(1.05);
+            box-shadow: 15px 15px 0 -5px #f0f0f0, 15px 15px 0 0 #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="dotContainer" class="dot-pattern"></div>
+    
+    <div class="form-container">
+        <div class="input__container username">
+            <div class="shadow__input"></div>
+            <input
+                type="text"
+                name="username"
+                class="input__search"
+                placeholder="Enter your Minecraft username"
+            />
+        </div>
+        
+        <div class="input__container playtime">
+            <div class="shadow__input"></div>
+            <input
+                type="text"
+                name="playtime"
+                class="input__search"
+                placeholder="How long have you been playing minecraft?"
+                min="0"
+            />
+        </div>
+        
+        <div class="input__container introduction">
+            <div class="shadow__input"></div>
+            <textarea
+                name="introduction"
+                class="textarea__input"
+                placeholder="Tell us about yourself and why you want to join our SMP"
+                rows="6"
+            ></textarea>
+        </div>
+        
+        <div class="visibility-container">
+            <div class="shadow__input"></div>
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="visibility" name="visibility" class="checkbox-input">
+                <label for="visibility" class="checkbox-label">Make my introduction visible to all players (otherwise only mods can see it)</label>
+            </div>
+        </div>
+        
+        <button class="submit-btn">Submit</button>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const config = {
+                dotsPerRow: 15,
+                dotsPerColumn: 15,
+                maxDotSize: 20,
+                minDotSize: 5
+            };
+            const dotContainer = document.getElementById('dotContainer');
+            function createDotPattern() {
+                if (!dotContainer) return;
+                dotContainer.innerHTML = '';
+                const containerWidth = window.innerWidth;
+                const containerHeight = window.innerHeight;
+                const horizontalSpacing = containerWidth / config.dotsPerRow;
+                const verticalSpacing = containerHeight / config.dotsPerColumn;
+                for (let y = 0; y <= config.dotsPerColumn; y++) {
+                    for (let x = 0; x <= config.dotsPerRow; x++) {
+                        const dot = document.createElement('div');
+                        dot.classList.add('dot');
+                        const xPos = x * horizontalSpacing + (horizontalSpacing / 2);
+                        const yPos = y * verticalSpacing;
+                        dot.style.left = `${xPos}px`;
+                        dot.style.top = `${yPos}px`;
+                        const verticalCenter = containerHeight / 2;
+                        const distanceFromCenter = Math.abs(yPos - verticalCenter);
+                        const maxDistance = verticalCenter;
+                        const sizeRatio = Math.max(0, 1 - (distanceFromCenter / maxDistance));
+                        const size = config.minDotSize + sizeRatio * (config.maxDotSize - config.minDotSize);
+                        dot.style.width = `${size}px`;
+                        dot.style.height = `${size}px`;
+                        dotContainer.appendChild(dot);
+                    }
+                }
+            }
+            createDotPattern();
+            window.addEventListener('resize', createDotPattern);
+        });
+    </script>
+</body>
+</html>

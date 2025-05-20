@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Dwp</title>
+        <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+        <style>
+            .bottom {
+                padding: 10px 20px;
+                font-size: 1.1rem;
+                background-color: #DE1F47;
+                border: none;
+                color: white;
+                position: relative;
+                width: 120px;
+                height: 45px;
+                transition: background-color 0.2s ease-in, all 0.15s ease-in;
+            }
+
+
+            button.bottom:hover::after {
+                transform: translate(-8px, -9px);
+            }
+
+            button.bottom:hover {
+                transform: translate(5px, 5px);
+            }
+
+            button.bottom:active::after {
+                background-color: #ffd5de;
+            }
+
+
+
+            @import url('https://fonts.googleapis.com/css2?family=League+Gothic&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+            html, body {
+                margin: 0;
+                background-color: #010101;
+                font-family: "Roboto", sans-serif;
+                scroll-behavior: smooth; /* For smooth scrolling */
+            }
+            .left-align-container {
+                width: 80vw;
+                display: flex;
+                align-self: center;
+            }
+
+            .right-align-container {
+                width: 80vw;
+                display: flex;
+                align-self: center;
+                position: relative;
+            }
+            .mods_section {
+                margin-top: 5rem;
+                display: flex;
+                justify-content: space-around;
+                flex-wrap: wrap;
+                gap: 2rem;
+                width: 80vw;
+                align-self: center;
+                max-width: 1200px;
+            }
+            .content-container-hidden {
+                display: none !important;
+            }
+            li {
+                text-align: left;
+            }
+            header {
+                background-image: url("{{ url_for('static', filename='header.png') }}");
+                background-size: cover;
+                background-position: center;
+                height: 110vh;
+                width: 100%;
+                background-attachment: fixed;
+                top: 0;
+                left: 0;
+                filter: blur(5px);
+                z-index: 0;
+            }
+            .content-container {
+                font-family: "League Gothic", sans-serif;
+                position: fixed;
+                display: grid;
+                grid-template-rows: 1fr 1fr 1fr 1fr;
+                z-index: 2;
+                text-align: center;
+                color: white;
+                height: 100vh;
+                width: 100%;
+                top: 0;
+            }
+            .content-container .empty-row {
+                grid-row: 1;
+            }
+            .content-container .empty-row:last-child {
+                grid-row: 4;
+            }
+            .content-container img {
+                grid-row: 2;
+                justify-self: center;
+                align-self: center;
+            }
+            .content-container .typed {
+                grid-row: 3;
+                font-size: 2rem;
+                margin-bottom: 10%;
+            }
+            .content-wrapper {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                max-width: 1200px;
+                gap: 5rem;
+            }
+            .divider {
+                position: relative;
+                width: 100%;
+                padding-bottom: 1rem;
+                height: 10vh;
+                top: -8vh;
+            }
+            main {
+                position: relative;
+                z-index: 3;
+                color: white;
+                background-color: black;
+                /* Add this to create a flex container for better alignment */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            /* Updated dot pattern styles for animated dots */
+            .dot-pattern {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0.2;
+                z-index: 1;
+                pointer-events: none;
+                overflow: hidden;
+            }
+
+            /* Style for individual dots */
+            .dot {
+                position: absolute;
+                background-color: #535353;
+                border-radius: 50%;
+                opacity: 0.5;
+            }
+            .details {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                align-items: center;
+            }
+            .bottom-divider {
+                display: block;
+                width: 100vw;
+                height: 10vh;
+                margin-top: 3rem;
+                transform: scaleY(-1);
+                position: relative;
+                top: 7vh;
+            }
+            .left-align {
+                text-align: left;
+            }
+            .right-align {
+                text-align: right;
+                width: 100%;
+                display: flex;
+                justify-content: right;
+            }
+            .content-section {
+                position: relative;
+                width: fit-content;
+                color: black;
+                padding: 20px;
+                transform: skew(-10deg);
+                background-color: white;
+                border: 4px solid #DE1F47;
+                box-shadow: 10px 10px 0 #DE1F47;
+                top: 0;
+                z-index: 3;
+            }
+            @media (max-width: 768px) {
+                .mods_section {
+                    flex-direction: column;
+                    align-items: center;
+                }
+                
+                .mods_section .content-section {
+                    max-width: 100%;
+                }
+                
+                .right-align {
+                    width: 100%;
+                    justify-content: center;
+                }
+                .content-container .typed {
+                    font-size: 1.5rem;
+                }
+                .content-container img {
+                    max-width: 70%;
+                }
+
+                .top-divider {
+                    height: 8vh;
+                    top: -5vh;
+                    margin-bottom: -3vh;
+                }
+
+                .left-align h1, .left-align p,
+                .right-align h1, .right-align p {
+                    text-align: center;
+                    margin-left: auto;
+                    margin-right: auto;
+                    max-width: 90%;
+                }
+
+                .bottom-divider {
+                    height: 8vh;
+                    margin-top: 2rem;
+                }
+            }
+
+
+            .btn-conteiner {
+                display: flex;
+                justify-content: center;
+                --color-text: #ffffff;
+                --color-background: #DE1F47;
+                --color-outline: #ff145b80;
+                --color-shadow: #00000080;
+            }
+
+                .btn-content {
+                display: flex;
+                align-items: center;
+                padding: 5px 30px;
+                text-decoration: none;
+                font-family: 'Poppins', sans-serif;
+                font-weight: 600;
+                font-size: 30px;
+                color: var(--color-text);
+                background: var(--color-background);
+                transition: 1s;
+                border-radius: 100px;
+                box-shadow: 0 0 0.2em 0 var(--color-background);
+                }
+
+                .btn-content:hover, .btn-content:focus {
+                transition: 0.5s;
+                -webkit-animation: btn-content 1s;
+                animation: btn-content 1s;
+                outline: 0.1em solid transparent;
+                outline-offset: 0.2em;
+                box-shadow: 0 0 0.4em 0 var(--color-background);
+                }
+
+                .btn-content .icon-arrow {
+                transition: 0.5s;
+                margin-right: 0px;
+                transform: scale(0.6);
+                }
+
+                .btn-content:hover .icon-arrow {
+                transition: 0.5s;
+                margin-right: 25px;
+                }
+
+                .icon-arrow {
+                width: 20px;
+                margin-left: 15px;
+                position: relative;
+                top: 6%;
+                }
+
+                /* SVG */
+                #arrow-icon-one {
+                transition: 0.4s;
+                transform: translateX(-60%);
+                }
+
+                #arrow-icon-two {
+                transition: 0.5s;
+                transform: translateX(-30%);
+                }
+
+                .btn-content:hover #arrow-icon-three {
+                animation: color_anim 1s infinite 0.2s;
+                }
+
+                .btn-content:hover #arrow-icon-one {
+                transform: translateX(0%);
+                animation: color_anim 1s infinite 0.6s;
+                }
+
+                .btn-content:hover #arrow-icon-two {
+                transform: translateX(0%);
+                animation: color_anim 1s infinite 0.4s;
+                }
+
+                /* SVG animations */
+                @keyframes color_anim {
+                0% {
+                    fill: white;
+                }
+
+                50% {
+                    fill: var(--color-background);
+                }
+
+                100% {
+                    fill: white;
+                }
+                }
+
+                /* Button animations */
+                @-webkit-keyframes btn-content {
+                0% {
+                    outline: 0.2em solid var(--color-background);
+                    outline-offset: 0;
+                }
+                }
+
+                @keyframes btn-content {
+                0% {
+                    outline: 0.2em solid var(--color-background);
+                    outline-offset: 0;
+                }
+                }
+
+
+            /* From Uiverse.io by satyamchaudharydev */
+            /* Styles for the Back to Top Button */
+            #backToTopBtn {
+                /* Default button styles from your existing code */
+                width: 140px;
+                height: 56px;
+                overflow: hidden;
+                border: none;
+                color: #fff;
+                background: none; /* Or your preferred background */
+                position: relative; /* Change to fixed to keep it in place */
+                padding-bottom: 2em;
+                cursor: pointer;
+
+                /* Positioning and initial state */
+                position: fixed; /* Keep it on screen */
+                bottom: 30px;    /* Distance from bottom */
+                right: 30px;     /* Distance from right */
+                z-index: 1000;   /* Ensure it's above other content */
+                opacity: 0;      /* Start fully transparent */
+                visibility: hidden; /* Start hidden */
+                transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out; /* Smooth fade */
+            }
+
+            #backToTopBtn.show {
+                opacity: 1;      /* Make it fully visible */
+                visibility: visible; /* Make it interactable */
+            }
+
+
+            #backToTopBtn > div,
+            #backToTopBtn > svg {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                text-shadow: 0px 0px 9px #000000;
+            }
+
+            #backToTopBtn:before {
+                content: "";
+                position: absolute;
+                height: 2px;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                transform: scaleX(0);
+                transform-origin: bottom right;
+                background: currentColor; /* Use the button's text color */
+                transition: transform 0.25s ease-out;
+            }
+
+            #backToTopBtn:hover:before {
+                transform: scaleX(1);
+                transform-origin: bottom left;
+            }
+
+            #backToTopBtn .clone > *,
+            #backToTopBtn .text > * {
+                opacity: 1;
+                font-size: 1.3rem;
+                transition: 0.2s;
+                margin-left: 4px;
+            }
+
+            #backToTopBtn .clone > * {
+                transform: translateY(60px);
+            }
+
+            #backToTopBtn:hover .clone > * {
+                opacity: 1;
+                transform: translateY(0px);
+                transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+            }
+
+            #backToTopBtn:hover .text > * {
+                opacity: 1;
+                transform: translateY(-60px);
+                transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+            }
+
+            #backToTopBtn:hover .clone > :nth-child(1) {
+                transition-delay: 0.15s;
+            }
+
+            #backToTopBtn:hover .clone > :nth-child(2) {
+                transition-delay: 0.2s;
+            }
+
+            #backToTopBtn:hover .clone > :nth-child(3) {
+                transition-delay: 0.25s;
+            }
+
+            #backToTopBtn:hover .clone > :nth-child(4) {
+                transition-delay: 0.3s;
+            }
+            /* icon style and hover */
+            #backToTopBtn svg {
+                width: 20px;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%) rotate(-50deg);
+                transition: 0.2s ease-out;
+            }
+
+            #backToTopBtn:hover svg {
+                transform: translateY(-50%) rotate(-90deg);
+            }
+            /* Placeholder for scroll testing */
+            .extra-content {
+                background-color: #0a0a0a;
+                padding: 20px;
+                color: #333;
+                text-align: center;
+                font-size: 2em;
+            }
+            .player-list-container {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                background-color: #010101;
+                position: relative;
+                z-index: 3;
+            }
+
+            .player-list-header {
+                width: fit-content;
+                margin-bottom: 2rem;
+            }
+
+            .player-list {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1.5rem;
+                width: 80%;
+                max-width: 1200px;
+            }
+
+            .player-card {
+                display: flex;
+                align-items: center;
+                padding: 0.5rem 1rem;
+                min-width: 150px;
+                transform: skew(-10deg);
+                background-color: white;
+                border: 4px solid #DE1F47;
+                box-shadow: 5px 5px 0 #DE1F47;
+                transition: all 0.2s ease-in-out;
+            }
+
+            .player-card:hover {
+                transform: skew(-10deg) translate(2px, 2px);
+                box-shadow: 3px 3px 0 #DE1F47;
+            }
+
+            .player-avatar {
+                margin-right: 0.75rem;
+                transform: skew(10deg); /* Counter-skew to make avatar straight */
+            }
+
+            .player-avatar img {
+                width: 40px;
+                height: 40px;
+                border-radius: 4px;
+                border: 2px solid #DE1F47;
+            }
+
+            .player-name {
+                font-family: "Roboto", sans-serif;
+                font-weight: 700;
+                color: black;
+                font-size: 1.1rem;
+                transform: skew(10deg); /* Counter-skew to make text straight */
+            }
+
+            .loading, .error, .empty-list {
+                padding: 2rem;
+                text-align: center;
+                color: white;
+                font-size: 1.2rem;
+                width: 100%;
+            }
+
+            .error {
+                color: #DE1F47;
+            }
+
+            /* Add this to your existing media queries */
+            @media (max-width: 768px) {
+                .player-list {
+                    width: 90%;
+                }
+                
+                .player-card {
+                    min-width: 120px;
+                }
+            }
+
+            .player-list-container {
+                margin-top: 8rem;
+            }
+
+            .player-list-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                z-index: 2;
+            }
+        </style>
+    </head>
+    <body>
+        <button id="backToTopBtn">
+            <div class="text">
+                <span>Back</span>
+                <span>to</span>
+                <span>top</span>
+            </div>
+            <div class="clone">
+                <span>Back</span>
+                <span>to</span>
+                <span>top</span>
+            </div>
+            <svg
+                stroke-width="2"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                fill="none"
+                class="h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20px"
+            >
+                <path
+                d="M14 5l7 7m0 0l-7 7m7-7H3"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                ></path>
+            </svg>
+        </button>
+
+        <nav></nav>
+        <div class="content-container">
+            <div class="empty-row"></div>
+            <img src="{{ url_for('static', filename='dwp.png') }}" draggable="false">
+            <div class="details">
+                <div class="typed">
+                    <span id="element"></span>
+                </div>
+                <div class="btn-conteiner">
+                    <a class="btn-content" href="https://discord.gg/EuWdCBXM8Y">
+                        <span class="btn-title">Discord</span>
+                        <span class="icon-arrow">
+                        <svg width="66px" height="43px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <path id="arrow-icon-one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+                            <path id="arrow-icon-two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+                            <path id="arrow-icon-three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"></path>
+                            </g>
+                        </svg>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="empty-row"></div>
+        </div>
+        <header>
+        </header>
+        <main>
+            <img draggable="false" class="divider" src="{{ url_for('static', filename='divider.svg') }}">
+            <div id="dotContainer" class="dot-pattern"></div>
+
+            <div class="content-wrapper">
+                <div class="left-align-container">
+                    <div class="content-section left-align">
+                        <h1>What?</h1>
+                        <p>We got tired of looking for a good survival smp, so, we made one.</p>
+                    </div>
+                </div>
+
+                <div class="right-align-container">
+                    <div class="content-section left-align"> <h1>Why should I join?</h1>
+                        <p>We're focused on a vanilla experience, amplified by essential quality-of-life enhancements. Built on Fabric for speed, we offer a tight-knit friendly community to share your adventures with.</p>
+                        <p>You only need a vanilla client to join. But VoiceChat is supported.</p>
+                    </div>
+                </div>
+            </div>
+                </div>
+                <div class="content-wrapper">
+                    <div class="mods_section">
+                        <div class="content-section left-align">
+                            <h1>Useful Mods</h1>
+                            <ul>
+                                <li>Bluemap</li>
+                                <li>Player Heads</li>
+                                <li>Mob heads</li>
+                                <li>Shulkers drop 2 shells</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-section">
+                            <h1>Optimisations</h1>
+                            <ul>
+                                <li>FerriteCore</li>
+                                <li>Lithium</li>
+                                <li>C2ME</li>
+                                <li>Noisium</li>
+                                <li>Chunky</li>
+                                <li>ScalableLux</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            <img draggable="false" class="bottom-divider" src="{{ url_for('static', filename='divider.svg') }}" alt="Section bottom divider">
+        </main>
+        
+        <div class="player-list-container">
+            <div class="content-section player-list-header">
+                <h1>Whitelisted Players</h1>
+                <p>Our amazing community members</p>
+            </div>
+            
+            <div id="player-list" class="player-list">
+                <!-- Player cards will be added here dynamically via JavaScript -->
+                <div class="loading">Loading players...</div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                loadWhitelistedPlayers();
+            });
+            
+            function loadWhitelistedPlayers() {
+                fetch('/api/whitelisted-players')
+                    .then(response => response.json())
+                    .then(players => {
+                        displayPlayers(players);
+                    })
+                    .catch(error => {
+                        console.error('Error loading players:', error);
+                        document.querySelector('#player-list').innerHTML = 
+                            '<div class="error">Error loading players. Please try again later.</div>';
+                    });
+            }
+            
+            function displayPlayers(players) {
+                const playerList = document.querySelector('#player-list');
+                playerList.innerHTML = '';
+                
+                if (players.length === 0) {
+                    playerList.innerHTML = '<div class="empty-list">No players have been whitelisted yet.</div>';
+                    return;
+                }
+                
+                players.forEach(player => {
+                    const playerCard = document.createElement('div');
+                    playerCard.className = 'player-card content-section';
+                    
+                    // Generate the face URL using the UUID or username
+                    let faceUrl;
+                    if (player.uuid) {
+                        // If we have the UUID, use it for the skin
+                        faceUrl = `https://crafatar.com/avatars/${player.uuid}?size=64&overlay`;
+                    } else {
+                        // Fallback to username-based avatar
+                        faceUrl = `https://minotar.net/avatar/${player.name}/64.png`;
+                    }
+                    
+                    playerCard.innerHTML = `
+                        <div class="player-avatar">
+                            <img src="${faceUrl}" alt="${player.name}'s avatar" draggable="false">
+                        </div>
+                        <div class="player-name">${player.name}</div>
+                    `;
+                    
+                    playerList.appendChild(playerCard);
+                });
+            }
+        </script>
+    </body>
+    <script>
+        var typed = new Typed('#element', {
+        strings: ['Only a vanilla experience', 'Only another SMP', 'Only QOL features', 'Only FABRIC', 'Only freedom', 'Only friends', 'Only a server', 'Only fun', 'Only minecraft'],
+        typeSpeed: 50,
+        loop: true,
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const contentContainer = document.querySelector('.content-container');
+            const hiddenClassName = 'content-container-hidden';
+
+            if (!contentContainer) {
+                return;
+            }
+
+            function updateContentContainerVisibility() {
+                const scrollThreshold = window.innerHeight*0.9; // 90vh
+
+                if (window.scrollY >= scrollThreshold) {
+                    contentContainer.classList.add(hiddenClassName);
+                } else {
+                    contentContainer.classList.remove(hiddenClassName);
+                }
+            }
+            window.addEventListener('scroll', updateContentContainerVisibility);
+            updateContentContainerVisibility();
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const config = {
+                dotsPerRow: 15,
+                dotsPerColumn: 15,
+                maxDotSize: 20,
+                minDotSize: 5
+            };
+            const dotContainer = document.getElementById('dotContainer');
+            function createDotPattern() {
+                if (!dotContainer) return;
+                dotContainer.innerHTML = '';
+                const containerWidth = dotContainer.clientWidth;
+                const containerHeight = dotContainer.clientHeight;
+                const horizontalSpacing = containerWidth / config.dotsPerRow;
+                const verticalSpacing = containerHeight / config.dotsPerColumn;
+                for (let y = 0; y <= config.dotsPerColumn; y++) {
+                    for (let x = 0; x <= config.dotsPerRow; x++) {
+                        const dot = document.createElement('div');
+                        dot.classList.add('dot');
+                        const xPos = x * horizontalSpacing + (horizontalSpacing / 2);
+                        const yPos = y * verticalSpacing;
+                        dot.style.left = `${xPos}px`;
+                        dot.style.top = `${yPos}px`;
+                        const verticalCenter = containerHeight / 2;
+                        const distanceFromCenter = Math.abs(yPos - verticalCenter);
+                        const maxDistance = verticalCenter;
+                        const sizeRatio = Math.max(0, 1 - (distanceFromCenter / maxDistance)); // Ensure ratio is not negative
+                        const size = config.minDotSize + sizeRatio * (config.maxDotSize - config.minDotSize);
+                        dot.style.width = `${size}px`;
+                        dot.style.height = `${size}px`;
+                        dotContainer.appendChild(dot);
+                    }
+                }
+            }
+            createDotPattern();
+            window.addEventListener('resize', createDotPattern);
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const backToTopButton = document.getElementById('backToTopBtn');
+            const scrollThreshold = 200; // Show button after scrolling 200px
+
+            if (!backToTopButton) {
+                console.warn('Back to Top button with ID "backToTopBtn" not found.');
+                return;
+            }
+
+            // Show or hide the button based on scroll position
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+                    backToTopButton.classList.add('show');
+                } else {
+                    backToTopButton.classList.remove('show');
+                }
+            });
+
+            // Scroll to top when the button is clicked
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth' // For smooth scrolling
+                });
+            });
+        });
+    </script>
+</html>
