@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Success</title>
+</head>
+<body>
+    <h1>Application Submitted!</h1>
+    <p>Your application has been submitted successfully.</p>
+    <p>You can close this tab</p>
+<script>
+// Try to close, but if it fails, show a button
+try {
+    window.close();
+} catch (e) {
+    document.body.innerHTML = `
+        <div style="text-align: center; padding: 50px; font-family: Arial;">
+            <h2>✅ submitted successfully!</h2>
+            <p>You can now close this tab.</p>
+            <button onclick="window.close()" style="padding: 10px 20px; font-size: 16px;">
+                Close Tab
+            </button>
+        </div>
+    `;
+}
+</script>        
+</body>
+</html>

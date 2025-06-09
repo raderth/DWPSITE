@@ -316,7 +316,8 @@
                 type="text"
                 name="playtime"
                 class="input__search"
-                placeholder="How long have you been playing minecraft?"
+                placeholder="What's your age? how long have you played for?"
+                title="What's your age? how long have you played for?"
                 min="0"
             />
         </div>
@@ -339,9 +340,75 @@
             </div>
         </div>
         
-        <button class="submit-btn">Submit</button>
+        <button tpye="submit" class="submit-btn">Submit</button>
     </div>
+<script>
+document.querySelector('.submit-btn').addEventListener('click', async function() {
+    // Get form values
+    const username = document.querySelector('input[name="username"]').value.trim();
+    const playtime = document.querySelector('input[name="playtime"]').value.trim();
+    const introduction = document.querySelector('textarea[name="introduction"]').value.trim();
+    const visibility = document.querySelector('input[name="visibility"]').checked;
     
+    // Discord user ID - This needs to be captured somewhere in your form
+    // It could be from URL parameter, hidden field, or user login session
+    // For example: const discordUserId = document.querySelector('input[name="discord_id"]').value.trim();
+    const discordUserId = getDiscordIdFromSession(); // You'll need to implement this function
+    
+    if (!username || !playtime || !introduction || !discordUserId) {
+        alert('Please fill out all required fields and ensure you are logged in with Discord.');
+        return;
+    }
+    
+    // Structure data in the format expected by the Flask app
+    const data = {
+        code: discordUserId,           // Discord user ID required by the bot
+        in_game_name: username,        // Minecraft username
+        playtime_experience: playtime, // Converting the field name
+        about_me: introduction,        // Converting the field name
+        public_profile: visibility     // Converting the field name
+    };
+    
+    try {
+        const response = await fetch('/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        
+        if (response.ok) {
+            window.location.href = '/success';
+        } else {
+            const errorData = await response.json();
+            alert(`Submission failed: ${errorData.message || 'Please try again.'}`);
+        }
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        alert('An error occurred. Please try again later.');
+    }
+});
+
+// Example function to get Discord ID from session
+// You need to implement this based on how you're handling Discord authentication
+function getDiscordIdFromSession() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const discordIdFromUrl = urlParams.get('code');
+    
+    // If not in URL, fall back to other methods
+    const discordId = discordIdFromUrl || 
+                      localStorage.getItem('discord_user_id') || 
+                      document.querySelector('input[name="discord_id"]')?.value;
+    
+    // Also store in localStorage for persistence if we got it from URL
+    if (discordIdFromUrl) {
+        localStorage.setItem('discord_user_id', discordIdFromUrl);
+    }
+                      
+    return discordId;
+}
+</script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const config = {

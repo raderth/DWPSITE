@@ -1,0 +1,49 @@
+2025-05-20 19:10:00,865 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-05-20 19:11:47,135 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-05-20 19:11:47,142 - db_utils - INFO - Domain set to: playdwp.net
+2025-05-20 19:11:47,142 - db_utils - INFO - Whitelist command set to: whitelist add
+2025-05-20 19:11:47,143 - db_utils - ERROR - Discord token not provided! Set DISCORD_TOKEN environment variable.
+2025-05-20 19:11:47,143 - db_utils - INFO - Discord token set.
+2025-05-20 19:11:47,143 - db_utils - ERROR - Discord client secret not provided! Set DISCORD_SECRET environment variable.
+2025-05-20 19:11:47,144 - db_utils - INFO - Discord client secret set.
+2025-05-20 19:11:47,144 - db_utils - ERROR - Discord client ID not provided! Set DISCORD_CLIENT_ID environment variable.
+2025-05-20 19:11:47,144 - db_utils - INFO - Discord client ID set.
+2025-05-20 19:11:47,145 - db_utils - INFO - Empty links dictionary initialized.
+2025-05-20 19:11:47,145 - db_utils - INFO - Empty managed roles list initialized.
+2025-05-20 19:11:47,146 - db_utils - INFO - Empty player cache initialized.
+2025-05-20 19:11:47,147 - db_utils - INFO - RCON host set to: localhost
+2025-05-20 19:11:47,147 - db_utils - INFO - RCON port set to: 25575
+2025-05-20 19:11:47,147 - db_utils - WARNING - RCON password not provided! RCON functionality may not work.
+2025-05-20 19:11:47,148 - db_utils - INFO - RCON password set.
+2025-05-20 19:11:47,148 - db_utils - INFO - Remember to add this URL to your Discord OAuth2 redirects: https://playdwp.net/callback
+2025-05-20 19:11:47,148 - main - INFO - Starting application in standalone mode
+2025-05-20 19:11:47,148 - main - INFO - Starting Flask app on 0.0.0.0:80
+2025-05-20 19:11:47,148 - main - INFO - Starting Discord bot
+2025-05-20 19:11:47,149 - discord_bot - INFO - Starting message queue processor
+2025-05-20 19:11:47,149 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-1' coro=<process_message_queue() done, defined at /site/DWPSITE/discord_bot.py:270> exception=NameError("name 'queue' is not defined")>
+Traceback (most recent call last):
+  File "/site/DWPSITE/discord_bot.py", line 274, in process_message_queue
+    data = message_queue.get_nowait()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/queue.py", line 199, in get_nowait
+    return self.get(block=False)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/queue.py", line 168, in get
+    raise Empty
+_queue.Empty
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/site/DWPSITE/discord_bot.py", line 277, in process_message_queue
+    except queue.Empty:
+           ^^^^^
+NameError: name 'queue' is not defined. Did you forget to import 'queue'
+2025-05-20 19:11:47,152 - discord_bot - ERROR - No Discord token found in database!
+2025-05-20 19:22:05,296 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-05-20 19:22:06,159 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-05-20 19:22:06,912 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-05-20 19:22:07,721 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-05-20 19:22:08,429 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-05-20 19:23:09,181 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
